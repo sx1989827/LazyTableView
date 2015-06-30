@@ -18,13 +18,14 @@ UITableView可谓是ios开发里的重中之重了，熟练掌握tableview的程
 3.本地静态cell可以使用block创建，并且设置点击事件。
 
 # 耦合性
-不可避免，我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可，如果用户使用了cocoapods，则在podfile里加入以下代码：
+我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可，如果用户使用了cocoapods，则在podfile里加入以下代码：
 
 pod "AFNetworking"
 
 pod "JSONModel"
 
 pod "MJRefresh",'0.0.1'
+
 并且删除LazyTableView里的lib文件夹。
 
 
@@ -33,7 +34,7 @@ pod "MJRefresh",'0.0.1'
 
 拖入一个uitableview，将custom class改为LazyTableView，连接控件变量为table1，在.h文件里引入LazyTableViewDelegate协议，然后在viewcontroller里写入如下代码：
 
-[_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
+    [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
     [_table1 setDelegateAndDataSource:self];
     //[_table1 setPageParam:@"pi" Page:2];
     [_table1 disablePage];
@@ -42,133 +43,133 @@ pod "MJRefresh",'0.0.1'
                                      @"pz":@10
                                         }];
 
--(NSArray*)LazyTableViewDidFinishRequest:(LazyTableView *)tableview Request:(NSDictionary *)dic
-{
-    if(tableview==_table1)
-    {
-        return dic[@"albums"];
-    }
-    return nil;
-}
+    -(NSArray*)LazyTableViewDidFinishRequest:(LazyTableView *)tableview Request:(NSDictionary *)dic
+      {
+        if(tableview==_table1)
+        {
+           return dic[@"albums"];
+        }
+        return nil;
+      }
 
 建立InfoCell类，继承LazyTableCell，将InfoCell的重用id设置为InfoCell，写入如下代码：
 
--(NSNumber*)LazyTableCellHeight:(id)item Path:(NSIndexPath *)path
-{
-    return  @80;
-}
+    -(NSNumber*)LazyTableCellHeight:(id)item Path:(NSIndexPath *)path
+    {
+     return  @80;
+    }
 
--(void)LazyTableCellForRowAtIndexPath:(id)item Path:(NSIndexPath *)path
-{
-    InfoItem *data=item;
-    _lbName.text=data.name;
-    _lbType.text=data.type;
-    _lbDate.text=data.release_date;
-}
+    -(void)LazyTableCellForRowAtIndexPath:(id)item Path:(NSIndexPath *)path
+    {
+         InfoItem *data=item;
+        _lbName.text=data.name;
+         _lbType.text=data.type;
+        _lbDate.text=data.release_date;
+    }
 
 建立InfoItem类，继承自LazyTableBaseItem，在h文件里写入属性（这里的名称要与json数据里字段的名称一致，具体可参考jsonmodal的用法）：
 
-@property (strong,nonatomic) NSString *name;
-@property (strong,nonatomic) NSString *release_date;
-@property (strong,nonatomic) NSString *type;
+    @property (strong,nonatomic) NSString *name;
+    @property (strong,nonatomic) NSString *release_date;
+    @property (strong,nonatomic) NSString *type;
 
 2.本地自定义静态cell创建，建立tableview过程如上所示，不用建立LazyTableBaseItem的子类，在viewcontroller里写入如下代码：
 
- [_table2 setDelegateAndDataSource:self];
-    [_table2 registarCell:@"InfoCell" StrItem:nil];
-    [_table2 addStaticCell:80 CellBlock:^(id cell) {
-        InfoCell *cl=cell;
-        cl.lbName.text=@"dsf";
-        cl.lbType.text=@"dfwwfew";
-    } ClickBlock:^(id cell) {
-        NSLog(@"123");
-    }];
-    LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
-    sec.headerHeight=100;
-    sec.titleHeader=@"sxsx";
-    [_table2 addSection:sec];
-    [_table2 addStaticCell:80 CellBlock:^(id cell) {
-        InfoCell *cl=cell;
-        cl.lbName.text=@"123";
-        cl.lbType.text=@"dsfsd234";
-    } ClickBlock:^(id cell) {
-        NSLog(@"zzz");
-    }];
-    [_table2 reloadStatic];
+     [_table2 setDelegateAndDataSource:self];
+        [_table2 registarCell:@"InfoCell" StrItem:nil];
+        [_table2 addStaticCell:80 CellBlock:^(id cell) {
+            InfoCell *cl=cell;
+            cl.lbName.text=@"dsf";
+            cl.lbType.text=@"dfwwfew";
+        } ClickBlock:^(id cell) {
+            NSLog(@"123");
+        }];
+        LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
+        sec.headerHeight=100;
+        sec.titleHeader=@"sxsx";
+        [_table2 addSection:sec];
+        [_table2 addStaticCell:80 CellBlock:^(id cell) {
+            InfoCell *cl=cell;
+            cl.lbName.text=@"123";
+            cl.lbType.text=@"dsfsd234";
+        } ClickBlock:^(id cell) {
+            NSLog(@"zzz");
+        }];
+        [_table2 reloadStatic];
     
     
 3.本地带section的静态数据源的cell创建，其他参考上面，在viewcontroller里写入如下代码：
 
-[_table3 setDelegateAndDataSource:self];
-    [_table3 registarCell:@"myTableViewCell" StrItem:@"myTableViewItem"];
-    NSArray* arr=@[
-          @{@"we":@"121312",@"data":@[
-                    @{
-                        @"scoreRealName":@"水电费水电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"水sad电费水电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"asdas水电费水电费的"
-                        }
-                    ]},
-          @{@"we":@"121dasas312",@"data":@[
-                    @{
-                        @"scoreRealName":@"水电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"水s费水电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"asdas水"
-                        }
-                    ]},
-          @{@"we":@"123s312",@"data":@[
-                    @{
-                        @"scoreRealName":@"水3443电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"水s费esrse水电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"asdas水3423"
-                        }
-                    ]},
-          @{@"we":@"12",@"data":@[
-                    @{
-                        @"scoreRealName":@"水gfhf电费的"
-                        },
-                    @{
-                        @"scoreRealName":@"水s费水电hrt费的"
-                        },
-                    @{
-                        @"scoreRealName":@"asdas水7867j"
-                        }
-                    ]}
-          ];
-    NSArray *arr1=@[
-                    @"a",
-                    @"b",
-                    @"c",
-                    @"d"
-                    ];
-    [_table3 addDataSource:arr];
-    [_table3 setSectionIndexTitles:arr1];
-    [_table3 reloadStatic];
-    
--(LazyTableBaseSection*)LazyTableViewInfoForSection:(LazyTableView *)tableview Request:(NSDictionary *)dic
-{
-    if(tableview==_table3)
+    [_table3 setDelegateAndDataSource:self];
+        [_table3 registarCell:@"myTableViewCell" StrItem:@"myTableViewItem"];
+        NSArray* arr=@[
+              @{@"we":@"121312",@"data":@[
+                        @{
+                            @"scoreRealName":@"水电费水电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"水sad电费水电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"asdas水电费水电费的"
+                            }
+                        ]},
+              @{@"we":@"121dasas312",@"data":@[
+                        @{
+                            @"scoreRealName":@"水电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"水s费水电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"asdas水"
+                            }
+                        ]},
+              @{@"we":@"123s312",@"data":@[
+                        @{
+                            @"scoreRealName":@"水3443电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"水s费esrse水电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"asdas水3423"
+                            }
+                        ]},
+              @{@"we":@"12",@"data":@[
+                        @{
+                            @"scoreRealName":@"水gfhf电费的"
+                            },
+                        @{
+                            @"scoreRealName":@"水s费水电hrt费的"
+                            },
+                        @{
+                            @"scoreRealName":@"asdas水7867j"
+                            }
+                        ]}
+              ];
+        NSArray *arr1=@[
+                        @"a",
+                        @"b",
+                        @"c",
+                        @"d"
+                        ];
+        [_table3 addDataSource:arr];
+        [_table3 setSectionIndexTitles:arr1];
+        [_table3 reloadStatic];
+        
+    -(LazyTableBaseSection*)LazyTableViewInfoForSection:(LazyTableView *)tableview Request:(NSDictionary *)dic
     {
-        LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
-        sec.titleHeader=dic[@"we"];
-        sec.headerHeight=50;
-        sec.data=@"data";
-        return sec;
+        if(tableview==_table3)
+        {
+            LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
+            sec.titleHeader=dic[@"we"];
+            sec.headerHeight=50;
+            sec.data=@"data";
+            return sec;
+        }
+        return nil;
     }
-    return nil;
-}
 
 4.抓取远程url数据的带section的cell，具体过程如3所示，不同的是需要在LazyTableViewDidFinishRequest里返回section信息所标示的字段名称，且tableview的初始化参考1的初始化方式。
 
