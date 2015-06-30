@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
+#import "LazyTableView.h"
+@interface ViewController : UIViewController<LazyTableViewDelegate>
+@property (strong, nonatomic) IBOutlet LazyTableView *table1;
+@property (strong, nonatomic) IBOutlet LazyTableView *table2;
+@property (strong, nonatomic) IBOutlet LazyTableView *table3;
 
 
 @end
