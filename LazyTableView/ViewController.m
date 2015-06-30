@@ -119,11 +119,15 @@
 
 -(LazyTableBaseSection*)LazyTableViewInfoForSection:(LazyTableView *)tableview Request:(NSDictionary *)dic
 {
-    LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
-    sec.titleHeader=dic[@"we"];
-    sec.headerHeight=50;
-    sec.data=@"data";
-    return sec;
+    if(tableview==_table3)
+    {
+        LazyTableBaseSection *sec=[[LazyTableBaseSection alloc] init];
+        sec.titleHeader=dic[@"we"];
+        sec.headerHeight=50;
+        sec.data=@"data";
+        return sec;
+    }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {
