@@ -30,6 +30,7 @@
     UIImageView *imgStatus;
     UILabel *lbStatus;
     BOOL bFirstHud;
+    UIView *viewParallax;
 }
 @end
 @interface LazyTableBaseSection (WriteItem)
@@ -215,14 +216,23 @@
      }
         failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         if(self.isHeaderRefreshing)
+         {
+             [self headerEndRefreshing];
+         }
+         if(self.isFooterRefreshing)
+         {
+             [self footerEndRefreshing];
+         }
+         [imgLoading stopAnimating];
+         imgLoading.hidden=YES;
+         imgStatus.hidden=NO;
+         viewHud.hidden=NO;
+         imgStatus.image=[UIImage imageNamed:@"DataError.png"];
+         lbStatus.text=@"亲，网络貌似傲娇了噢！";
+         [self setRefreshShow:YES Footer:NO];
          if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewLoadError:Error:)])
          {
-             [imgLoading stopAnimating];
-             imgLoading.hidden=YES;
-             imgStatus.hidden=NO;
-             viewHud.hidden=NO;
-             imgStatus.image=[UIImage imageNamed:@"DataError.png"];
-             lbStatus.text=@"亲，网络貌似傲娇了噢！";
              [customDelegate LazyTableViewLoadError:self Error:error];
          }
      }];

@@ -75,6 +75,8 @@
 		B59E86E61B423B100008D5D9 /* myTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B59E86E21B423B100008D5D9 /* myTableViewCell.m */; };
 		B59E86E71B423B100008D5D9 /* myTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B59E86E31B423B100008D5D9 /* myTableViewCell.xib */; };
 		B59E86E81B423B100008D5D9 /* myTableViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B59E86E51B423B100008D5D9 /* myTableViewItem.m */; };
+		B59E86EC1B4389450008D5D9 /* MemberHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B59E86EA1B4389450008D5D9 /* MemberHeaderView.m */; };
+		B59E86ED1B4389450008D5D9 /* MemberHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B59E86EB1B4389450008D5D9 /* MemberHeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +212,9 @@
 		B59E86E31B423B100008D5D9 /* myTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = myTableViewCell.xib; sourceTree = "<group>"; };
 		B59E86E41B423B100008D5D9 /* myTableViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myTableViewItem.h; sourceTree = "<group>"; };
 		B59E86E51B423B100008D5D9 /* myTableViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myTableViewItem.m; sourceTree = "<group>"; };
+		B59E86E91B4389450008D5D9 /* MemberHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberHeaderView.h; sourceTree = "<group>"; };
+		B59E86EA1B4389450008D5D9 /* MemberHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberHeaderView.m; sourceTree = "<group>"; };
+		B59E86EB1B4389450008D5D9 /* MemberHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +271,9 @@
 				B59E86E31B423B100008D5D9 /* myTableViewCell.xib */,
 				B59E86E41B423B100008D5D9 /* myTableViewItem.h */,
 				B59E86E51B423B100008D5D9 /* myTableViewItem.m */,
+				B59E86E91B4389450008D5D9 /* MemberHeaderView.h */,
+				B59E86EA1B4389450008D5D9 /* MemberHeaderView.m */,
+				B59E86EB1B4389450008D5D9 /* MemberHeaderView.xib */,
 				B59E86091B411EDF0008D5D9 /* Supporting Files */,
 				B59E86D91B4129A60008D5D9 /* InfoCell.h */,
 				B59E86DA1B4129A60008D5D9 /* InfoCell.m */,
@@ -609,6 +617,7 @@
 				B59E86D31B4123430008D5D9 /* HUDLoading5.png in Resources */,
 				B59E86B91B4121EC0008D5D9 /* LICENSE in Resources */,
 				B59E86D01B4123430008D5D9 /* HUDLoading2.png in Resources */,
+				B59E86ED1B4389450008D5D9 /* MemberHeaderView.xib in Resources */,
 				B59E86CE1B4123430008D5D9 /* DataError.png in Resources */,
 				B59E86CD1B4123430008D5D9 /* DataEmpty.png in Resources */,
 				B59E86151B411EDF0008D5D9 /* Main.storyboard in Resources */,
@@ -656,6 +665,7 @@
 				B59E86BF1B4121EC0008D5D9 /* UIScrollView+MJExtension.m in Sources */,
 				B59E86E81B423B100008D5D9 /* myTableViewItem.m in Sources */,
 				B59E863C1B4120430008D5D9 /* LazyTableView.m in Sources */,
+				B59E86EC1B4389450008D5D9 /* MemberHeaderView.m in Sources */,
 				B59E863B1B4120430008D5D9 /* LazyTableHelp.m in Sources */,
 				B59E86A71B4121EC0008D5D9 /* UIAlertView+AFNetworking.m in Sources */,
 				B59E86C11B4121EC0008D5D9 /* UIView+MJExtension.m in Sources */,

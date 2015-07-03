@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "InfoCell.h"
+#import "MemberHeaderView.h"
 @interface ViewController ()
 
 @end
@@ -16,6 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets=NO;
     [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
     [_table1 setDelegateAndDataSource:self];
     //[_table1 setPageParam:@"pi" Page:2];
