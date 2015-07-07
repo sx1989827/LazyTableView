@@ -202,7 +202,8 @@ pod "MJRefresh",'0.0.1'
     [_tableMain reloadStatic];
     
 6.多个cell之间的切换。调用registarCell即可，需要实现LazyTableViewSwitchCell方法
-   [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
+
+    [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
     [_table1 registarCell:@"InfoCell1" StrItem:@"InfoItem"];
     [_table1 setDelegateAndDataSource:self];
     [_table1 setPageParam:@"pi" Page:2];
