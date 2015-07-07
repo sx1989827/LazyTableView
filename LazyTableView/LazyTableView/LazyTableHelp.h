@@ -10,10 +10,12 @@
 #import <UIKit/UIKit.h>
 @class LazyTableView;
 @interface LazyTableHelp : NSObject<UITableViewDelegate,UITableViewDataSource>
-@property (strong,nonatomic) NSString *reuseId;
-@property (strong,nonatomic) NSString *reuseItem;
+@property (strong,nonatomic) NSMutableDictionary *dicCellItem;
+@property (strong,nonatomic) NSMutableDictionary *dicCacheCell;
+@property (strong,nonatomic) NSMutableDictionary *dicCellXibExist;
 @property (strong,nonatomic) NSMutableArray *arrData;
 @property (strong,nonatomic) NSArray *arrSectionTitleIndex;
 @property (assign,nonatomic) NSInteger removeCount;
 @property (weak,nonatomic) LazyTableView *delegate;
+@property (assign,nonatomic) UITableViewCellStyle cellStyle;
 @end

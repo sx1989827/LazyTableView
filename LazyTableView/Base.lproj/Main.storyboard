@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
@@ -28,17 +28,6 @@
                                     </mask>
                                 </variation>
                             </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="AW0-YI-4ld" customClass="LazyTableView">
-                                <rect key="frame" x="0.0" y="160" width="320" height="160"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="Gar-o1-KCn"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Gar-o1-KCn"/>
-                                    </mask>
-                                </variation>
-                            </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kJp-7C-iiP" customClass="LazyTableView">
                                 <rect key="frame" x="0.0" y="320" width="320" height="160"/>
                                 <constraints>
@@ -50,45 +39,31 @@
                                     </mask>
                                 </variation>
                             </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="whm-z4-14X" customClass="LazyTableView">
+                                <rect key="frame" x="0.0" y="160" width="320" height="160"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="aJp-Xh-cw8" secondAttribute="trailing" id="05a-a4-1Mx"/>
-                            <constraint firstItem="AW0-YI-4ld" firstAttribute="top" secondItem="aJp-Xh-cw8" secondAttribute="bottom" id="3He-6z-ZbM"/>
-                            <constraint firstItem="aJp-Xh-cw8" firstAttribute="height" secondItem="AW0-YI-4ld" secondAttribute="height" id="66r-8w-WbX"/>
+                            <constraint firstItem="whm-z4-14X" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="0tv-EI-bJG"/>
                             <constraint firstItem="kJp-7C-iiP" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="9rQ-qP-fLW"/>
-                            <constraint firstItem="kJp-7C-iiP" firstAttribute="top" secondItem="AW0-YI-4ld" secondAttribute="bottom" id="CXo-sV-aUE"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="kJp-7C-iiP" secondAttribute="bottom" id="Cew-Nx-j18"/>
-                            <constraint firstItem="AW0-YI-4ld" firstAttribute="height" secondItem="aJp-Xh-cw8" secondAttribute="height" id="DJ0-ub-3qd"/>
-                            <constraint firstItem="kJp-7C-iiP" firstAttribute="width" secondItem="AW0-YI-4ld" secondAttribute="width" id="G0l-py-PBz"/>
-                            <constraint firstItem="AW0-YI-4ld" firstAttribute="top" secondItem="aJp-Xh-cw8" secondAttribute="bottom" id="HvP-rq-smw"/>
-                            <constraint firstItem="AW0-YI-4ld" firstAttribute="top" secondItem="aJp-Xh-cw8" secondAttribute="bottom" id="PIH-8t-5NI"/>
-                            <constraint firstItem="kJp-7C-iiP" firstAttribute="top" secondItem="AW0-YI-4ld" secondAttribute="bottom" id="Rc4-2u-BsO"/>
-                            <constraint firstAttribute="trailing" secondItem="AW0-YI-4ld" secondAttribute="trailing" id="Ug0-k4-x2D"/>
-                            <constraint firstItem="kJp-7C-iiP" firstAttribute="height" secondItem="AW0-YI-4ld" secondAttribute="height" id="V3i-XG-M2C"/>
+                            <constraint firstItem="kJp-7C-iiP" firstAttribute="top" secondItem="whm-z4-14X" secondAttribute="bottom" id="KNS-ny-gNw"/>
+                            <constraint firstItem="whm-z4-14X" firstAttribute="top" secondItem="aJp-Xh-cw8" secondAttribute="bottom" id="SZX-WU-YKd"/>
                             <constraint firstItem="aJp-Xh-cw8" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="WAg-bj-cTd"/>
                             <constraint firstItem="aJp-Xh-cw8" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="X1U-Gj-NLq"/>
-                            <constraint firstItem="kJp-7C-iiP" firstAttribute="top" secondItem="AW0-YI-4ld" secondAttribute="bottom" id="YbY-Ju-YX4"/>
-                            <constraint firstItem="AW0-YI-4ld" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="iQ6-QD-v9C"/>
-                            <constraint firstItem="aJp-Xh-cw8" firstAttribute="width" secondItem="AW0-YI-4ld" secondAttribute="width" id="l10-Qf-yIQ"/>
+                            <constraint firstAttribute="trailing" secondItem="whm-z4-14X" secondAttribute="trailing" id="Ye8-y3-CKB"/>
+                            <constraint firstItem="whm-z4-14X" firstAttribute="height" secondItem="kJp-7C-iiP" secondAttribute="height" id="nGG-dh-FUF"/>
+                            <constraint firstItem="whm-z4-14X" firstAttribute="height" secondItem="aJp-Xh-cw8" secondAttribute="height" id="ovK-kQ-NM6"/>
                             <constraint firstAttribute="trailing" secondItem="kJp-7C-iiP" secondAttribute="trailing" id="rNq-fx-HfI"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="l10-Qf-yIQ"/>
-                                <exclude reference="DJ0-ub-3qd"/>
-                                <exclude reference="HvP-rq-smw"/>
-                                <exclude reference="PIH-8t-5NI"/>
-                                <exclude reference="CXo-sV-aUE"/>
-                                <exclude reference="G0l-py-PBz"/>
-                                <exclude reference="Rc4-2u-BsO"/>
-                            </mask>
-                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="table1" destination="aJp-Xh-cw8" id="lfL-Sw-NFH"/>
-                        <outlet property="table2" destination="AW0-YI-4ld" id="gOW-D9-tYd"/>
+                        <outlet property="table2" destination="whm-z4-14X" id="FV1-HK-sFA"/>
                         <outlet property="table3" destination="kJp-7C-iiP" id="iVt-aS-vzQ"/>
                     </connections>
                 </viewController>

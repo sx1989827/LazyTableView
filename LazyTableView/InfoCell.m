@@ -10,9 +10,11 @@
 #import "infoItem.h"
 @implementation InfoCell
 
-- (void)awakeFromNib {
-    // Initialization code
+-(void)initWithCell
+{
+    NSLog(@"aaa");
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

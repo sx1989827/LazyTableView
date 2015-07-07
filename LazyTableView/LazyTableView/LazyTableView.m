@@ -137,8 +137,27 @@
 
 -(void)registarCell:(NSString*)strCell StrItem:(NSString*)strItem
 {
-    customDataSource.reuseId=strCell;
-    customDataSource.reuseItem=strItem;
+    if(customDataSource.dicCellItem==nil)
+    {
+        customDataSource.dicCellItem=[[NSMutableDictionary alloc] initWithCapacity:30];
+    }
+    customDataSource.dicCellItem[strCell]=strItem!=nil?strItem:[NSNull null];
+    if(customDataSource.dicCacheCell==nil)
+    {
+        customDataSource.dicCacheCell=[[NSMutableDictionary alloc] initWithCapacity:30];
+    }
+    if(customDataSource.dicCellXibExist==nil)
+    {
+        customDataSource.dicCellXibExist=[[NSMutableDictionary alloc] initWithCapacity:30];
+    }
+    if([[NSBundle mainBundle] pathForResource:strCell ofType:@"nib"] != nil)
+    {
+        customDataSource.dicCellXibExist[strCell]=@YES;
+    }
+    else
+    {
+        customDataSource.dicCellXibExist[strCell]=@NO;
+    }
 }
 
 -(void)setPageParam:(NSString*)page Page:(NSInteger)indexPage
@@ -295,12 +314,27 @@
             NSArray *arrData=arr[i][section.data];
             for(int j=0;j<arrData.count;j++)
             {
+                NSString *cellId,*itemId;
+                if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewSwitchCell:Request:Section:Row:)])
+                {
+                    cellId=[customDelegate LazyTableViewSwitchCell:self Request:arrData[j] Section:i Row:j];
+                }
+                if(cellId!=nil)
+                {
+                    itemId=customDataSource.dicCellItem[cellId];
+                }
+                else
+                {
+                    itemId=[[customDataSource.dicCellItem allValues] lastObject];
+                    cellId=[[customDataSource.dicCellItem allKeys] lastObject];
+                }
                 NSError* err=nil;
-                Class cls=NSClassFromString( customDataSource.reuseItem);
+                Class cls=NSClassFromString( itemId);
                 id obj=[[cls alloc] initWithDictionary:arrData[j] error:&err];
                 [obj performSelector:@selector(setViewControllerDelegate:) withObject:customDelegate];
                 [obj performSelector:@selector(setTableViewDelegate:) withObject:self];
                 [obj performSelector:@selector(setSectionDelegate:) withObject:section];
+                [obj performSelector:@selector(setCellClassName:) withObject:cellId];
                 [ section.arrItem addObject:obj];
             }
             [customDataSource.arrData addObject:section];
@@ -316,12 +350,27 @@
             {
                 singleSection=customDataSource.arrData[0];
             }
+            NSString *cellId,*itemId;
+            if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewSwitchCell:Request:Section:Row:)])
+            {
+                cellId=[customDelegate LazyTableViewSwitchCell:self Request:arr[i] Section:0 Row:i];
+            }
+            if(cellId!=nil)
+            {
+                itemId=customDataSource.dicCellItem[cellId];
+            }
+            else
+            {
+                itemId=[[customDataSource.dicCellItem allValues] lastObject];
+                cellId=[[customDataSource.dicCellItem allKeys] lastObject];
+            }
             NSError* err=nil;
-            Class cls=NSClassFromString( customDataSource.reuseItem);
+            Class cls=NSClassFromString( itemId);
             id obj=[[cls alloc] initWithDictionary:arr[i] error:&err];
             [obj performSelector:@selector(setViewControllerDelegate:) withObject:customDelegate];
             [obj performSelector:@selector(setTableViewDelegate:) withObject:self];
             [obj performSelector:@selector(setSectionDelegate:) withObject:section];
+            [obj performSelector:@selector(setCellClassName:) withObject:cellId];
             [ singleSection.arrItem addObject:obj];
             if(bMore)
             {
@@ -478,24 +527,54 @@
                 NSArray *arrData=arrTemp[i][section.data];
                 for(int j=0;j<arrData.count;j++)
                 {
+                    NSString *cellId,*itemId;
+                    if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewSwitchCell:Request:Section:Row:)])
+                    {
+                        cellId=[customDelegate LazyTableViewSwitchCell:self Request:arrData[j] Section:i Row:j];
+                    }
+                    if(cellId!=nil)
+                    {
+                        itemId=customDataSource.dicCellItem[cellId];
+                    }
+                    else
+                    {
+                        itemId=[[customDataSource.dicCellItem allValues] lastObject];
+                        cellId=[[customDataSource.dicCellItem allKeys] lastObject];
+                    }
                     NSError* err=nil;
-                    Class cls=NSClassFromString( customDataSource.reuseItem);
+                    Class cls=NSClassFromString( itemId);
                     id obj=[[cls alloc] initWithDictionary:arrData[j] error:&err];
                     [obj performSelector:@selector(setViewControllerDelegate:) withObject:customDelegate];
                     [obj performSelector:@selector(setTableViewDelegate:) withObject:self];
                     [obj performSelector:@selector(setSectionDelegate:) withObject:section];
+                    [obj performSelector:@selector(setCellClassName:) withObject:cellId];
                     [ section.arrItem addObject:obj];
                 }
                 [customDataSource.arrData addObject:section];
             }
             else
             {
+                NSString *cellId,*itemId;
+                if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewSwitchCell:Request:Section:Row:)])
+                {
+                    cellId=[customDelegate LazyTableViewSwitchCell:self Request:arrTemp[i] Section:0 Row:i];
+                }
+                if(cellId!=nil)
+                {
+                    itemId=customDataSource.dicCellItem[cellId];
+                }
+                else
+                {
+                    itemId=[[customDataSource.dicCellItem allValues] lastObject];
+                    cellId=[[customDataSource.dicCellItem allKeys] lastObject];
+                }
                 NSError* err=nil;
-                Class cls=NSClassFromString( customDataSource.reuseItem);
+                Class cls=NSClassFromString( itemId);
                 id obj=[[cls alloc] initWithDictionary:arrTemp[i] error:&err];
                 [obj performSelector:@selector(setViewControllerDelegate:) withObject:customDelegate];
                 [obj performSelector:@selector(setTableViewDelegate:) withObject:self];
                 [obj performSelector:@selector(setSectionDelegate:) withObject:section];
+                [obj performSelector:@selector(setCellClassName:) withObject:cellId];
                 [ singleSection.arrItem addObject:obj];
                 if(i==0)
                 {
@@ -600,6 +679,11 @@
 -(LazyTableType)getTableType
 {
     return tableType;
+}
+
+-(void)setCellStyle:(UITableViewCellStyle)style
+{
+    customDataSource.cellStyle=style;
 }
 
 

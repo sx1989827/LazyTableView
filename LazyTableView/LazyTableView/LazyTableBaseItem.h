@@ -22,4 +22,17 @@
  *  当前所处的section
  */
 @property (weak,nonatomic) LazyTableBaseSection<Ignore>* sectionDelegate;
+/**
+ *  当前item所对应的cell
+ */
+@property (strong,nonatomic) NSString<Ignore> *cellClassName;
 @end
+
+
+
+
+
+
+
+
+

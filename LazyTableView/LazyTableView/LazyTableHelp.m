@@ -10,13 +10,11 @@
 #import "LazyTableView.h"
 #import "LazyTableCellProtocol.h"
 #import "LazyTableBaseSection.h"
+#import "LazyTableBaseItem.h"
 typedef void (^cellBlock)(id cell);
 typedef void (^clickBlock)(id cell);
 @interface LazyTableHelp()
-{
-    id rowHeightCell;
-    
-}
+
 @end
 @implementation LazyTableHelp
 
@@ -52,14 +50,6 @@ typedef void (^clickBlock)(id cell);
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(rowHeightCell==nil)
-    {
-        NSArray *arr=[[NSBundle mainBundle] loadNibNamed:_reuseId owner:nil options:nil];
-        if(arr.count!=0)
-        {
-            rowHeightCell=[arr lastObject];
-        }
-    }
     LazyTableBaseSection *sec=_arrData[indexPath.section];
     CGFloat height=0;
     if([_delegate getTableType]==LazyTableTypeBlockStatic)
@@ -68,35 +58,86 @@ typedef void (^clickBlock)(id cell);
     }
     else
     {
+        LazyTableBaseItem *item=sec.arrItem[indexPath.row];
+        UITableViewCell *rowHeightCell=_dicCacheCell[item.cellClassName];
+        if(rowHeightCell==nil)
+        {
+            if([_dicCellXibExist[item.cellClassName] boolValue])
+            {
+                NSArray *arr=[[NSBundle mainBundle] loadNibNamed:item.cellClassName owner:nil options:nil];
+                if(arr.count!=0)
+                {
+                    rowHeightCell=[arr lastObject];
+                    _dicCacheCell[item.cellClassName]=rowHeightCell;
+                }
+            }
+            else
+            {
+                Class cls=NSClassFromString(item.cellClassName);
+                rowHeightCell=[[cls alloc] initWithStyle:_cellStyle reuseIdentifier:item.cellClassName];
+            }
+        }
         if([rowHeightCell respondsToSelector:@selector(LazyTableCellHeight:Path:)])
         {
             height=[[rowHeightCell performSelector:@selector(LazyTableCellHeight:Path:) withObject:sec.arrItem[indexPath.row] withObject:indexPath] floatValue];
         }
     }
+    
     return height;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:_reuseId];
-    if(cell==nil)
-    {
-        cell=[[[NSBundle mainBundle] loadNibNamed:_reuseId owner:nil options:nil] lastObject];
-    }
     LazyTableBaseSection *sec=_arrData[indexPath.section];
+    UITableViewCell *cell;
     if([_delegate getTableType]==LazyTableTypeBlockStatic)
     {
+        NSString *cellId=[[_dicCellItem allKeys] lastObject];
+        cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+        if(cell==nil)
+        {
+            if([_dicCellXibExist[cellId] boolValue])
+            {
+                NSArray *arr=[[NSBundle mainBundle] loadNibNamed:cellId owner:nil options:nil];
+                if([arr count]!=0)
+                {
+                    cell=[arr lastObject];
+                }
+            }
+            else
+            {
+                Class cls=NSClassFromString(cellId);
+                cell=[[cls alloc] initWithStyle:_cellStyle reuseIdentifier:cellId];
+            }
+        }
         cellBlock block=sec.arrItem[indexPath.row][@"cellblock"];
         block(cell);
     }
     else
     {
+        LazyTableBaseItem *item=sec.arrItem[indexPath.row];
+        cell=[tableView dequeueReusableCellWithIdentifier:item.cellClassName];
+        if(cell==nil)
+        {
+            if([_dicCellXibExist[item.cellClassName] boolValue])
+            {
+                NSArray *arr=[[NSBundle mainBundle] loadNibNamed:item.cellClassName owner:nil options:nil];
+                if([arr count]!=0)
+                {
+                    cell=[arr lastObject];
+                }
+            }
+            else
+            {
+                Class cls=NSClassFromString(item.cellClassName);
+                cell=[[cls alloc] initWithStyle:_cellStyle reuseIdentifier:item.cellClassName];
+            }
+        }
         if([cell respondsToSelector:@selector(LazyTableCellForRowAtIndexPath:Path:)])
         {
             [cell performSelector:@selector(LazyTableCellForRowAtIndexPath:Path:) withObject:sec.arrItem[indexPath.row] withObject:indexPath];
         }
     }
-    
     return  cell;
 
 }

@@ -58,6 +58,17 @@ typedef enum
  *  @return 返回section
  */
 -(LazyTableBaseSection*)LazyTableViewInfoForSection:(LazyTableView*)tableview Request:(NSDictionary*)dic;
+/**
+ *  在多个cell间切换，根据当前的item字典数据和section以及row来决定加载哪一个cell。
+ *
+ *  @param tableview 当前的tableview
+ *  @param item      当前的item字典数据
+ *  @param section   当前的section
+ *  @param row       当前的row
+ *
+ *  @return 返回cell的类名称
+ */
+-(NSString*)LazyTableViewSwitchCell:(LazyTableView*)tableview Request:(NSDictionary*)item Section:(NSInteger)section Row:(NSInteger)row;
 @end
 @interface LazyTableView : UITableView
 /**
@@ -158,6 +169,12 @@ typedef enum
  *  @return tableview的类型
  */
 -(LazyTableType)getTableType;
+/**
+ *  当cell由代码创建的时候，设置cell的style
+ *
+ *  @param style cell的style
+ */
+-(void)setCellStyle:(UITableViewCellStyle)style;
 @end
 
 

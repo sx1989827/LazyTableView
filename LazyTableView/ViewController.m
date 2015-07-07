@@ -19,9 +19,11 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets=NO;
     [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
+    [_table1 registarCell:@"InfoCell1" StrItem:@"InfoItem"];
     [_table1 setDelegateAndDataSource:self];
-    //[_table1 setPageParam:@"pi" Page:2];
-    [_table1 disablePage];
+    [_table1 setPageParam:@"pi" Page:2];
+    
+    //[_table1 disablePage];
     [_table1 reloadRequest:@"http://v5.pc.duomi.com/search-ajaxsearch-searchall" Param:@{
                                      @"kw":@"爱情",
                                      @"pz":@10
@@ -104,7 +106,10 @@
     [_table3 addDataSource:arr];
     [_table3 setSectionIndexTitles:arr1];
     [_table3 reloadStatic];
+    
+    
 }
+
 
 -(NSArray*)LazyTableViewDidFinishRequest:(LazyTableView *)tableview Request:(NSDictionary *)dic
 {
@@ -135,6 +140,22 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSString*)LazyTableViewSwitchCell:(LazyTableView *)tableview Request:(NSDictionary *)item Section:(NSInteger)section Row:(NSInteger)row
+{
+    if(tableview==_table1)
+    {
+        if([item[@"type"] isEqualToString:@"专辑"])
+        {
+            return @"InfoCell1";
+        }
+        else
+        {
+            return @"InfoCell";
+        }
+    }
+    return nil;
 }
 
 @end

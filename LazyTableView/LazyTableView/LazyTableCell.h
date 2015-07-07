@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "LazyTableCellProtocol.h"
 @interface LazyTableCell : UITableViewCell<LazyTableCellProtocol>
-
+/**
+ *  初始化cell的方法，将xib的awakeFromNib和纯代码创建的initWithStyle整合到一个方法里
+ */
+-(void)initWithCell;
 @end
