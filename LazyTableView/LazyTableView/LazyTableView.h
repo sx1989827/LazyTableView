@@ -175,6 +175,14 @@ typedef enum
  *  @param style cell的style
  */
 -(void)setCellStyle:(UITableViewCellStyle)style;
+/**
+ *  清空当前tableview的cell和数据
+ */
+-(void)empty;
+/**
+ *  当tableview数据为空的时候显示的文字描述
+ */
+@property (strong,nonatomic) NSString* dataEmptyDes;
 @end
 
 

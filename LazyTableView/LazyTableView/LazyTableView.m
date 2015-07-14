@@ -448,7 +448,15 @@
             imgStatus.hidden=NO;
             viewHud.hidden=NO;
             imgStatus.image=[UIImage imageNamed:@"DataEmpty.png"];
-            lbStatus.text=@"对不起，让您失望了!";
+            if(_dataEmptyDes!=nil)
+            {
+                lbStatus.text=_dataEmptyDes;
+            }
+            else
+            {
+                lbStatus.text=@"对不起，让您失望了!";
+            }
+            
         }
         else
         {
@@ -684,6 +692,13 @@
 -(void)setCellStyle:(UITableViewCellStyle)style
 {
     customDataSource.cellStyle=style;
+}
+
+-(void)empty
+{
+    [customDataSource.arrData removeAllObjects];
+    [self setRefreshShow:YES Footer:NO];
+    [self reloadData];
 }
 
 
