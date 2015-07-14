@@ -17,6 +17,10 @@ UITableView可谓是ios开发里的重中之重了，熟练掌握tableview的程
 
 3.本地静态cell可以使用block创建，并且设置点击事件。
 
+4.可以绑定多个cell和data，根据data数据源里数据的不同在不同的cell之间自由切换，满足复杂的列表需求。
+
+5.支持xib和纯代码两种cell创建方式，框架自动识别创建。
+
 # 耦合性
 我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可，如果用户使用了cocoapods，则在podfile里加入以下代码：
 
@@ -196,7 +200,44 @@ pod "MJRefresh",'0.0.1'
     [sec addRow:item];
     [_tableMain addSection:sec];
     [_tableMain reloadStatic];
+    
+6.多个cell之间的切换。调用registarCell即可，需要实现LazyTableViewSwitchCell方法
 
+    [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
+    [_table1 registarCell:@"InfoCell1" StrItem:@"InfoItem"];
+    [_table1 setDelegateAndDataSource:self];
+    [_table1 setPageParam:@"pi" Page:2];
+    
+    //[_table1 disablePage];
+    [_table1 reloadRequest:@"http://v5.pc.duomi.com/search-ajaxsearch-searchall" Param:@{
+                                     @"kw":@"爱情",
+                                     @"pz":@10
+                                        }];
+                                        
+    -(NSArray*)LazyTableViewDidFinishRequest:(LazyTableView *)tableview Request:(NSDictionary *)dic
+    {
+        if(tableview==_table1)
+        {
+            return dic[@"albums"];
+        }
+        return nil;
+    }
+
+    -(NSString*)LazyTableViewSwitchCell:(LazyTableView *)tableview Request:(NSDictionary *)item Section:(NSInteger)section       Row:(NSInteger)row
+    {
+      if(tableview==_table1)
+      {
+         if([item[@"type"] isEqualToString:@"专辑"])
+         {
+              return @"InfoCell1";
+         }
+         else
+        {
+             return @"InfoCell";
+        }
+      }
+       return nil;
+    }
 # 综述
 
 大致的用法就如上面所述，大家可以下载demo测试下，代码里都有详细的注释,这个框架我会不断完善，自己的app也在使用，希望大家有什么意见和想法可以与我多多交流。
