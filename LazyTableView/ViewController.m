@@ -28,9 +28,7 @@
                                      @"kw":@"爱情",
                                      @"pz":@10
                                         }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_table1 empty];
-    });
+
     [_table2 setDelegateAndDataSource:self];
     [_table2 registarCell:@"InfoCell" StrItem:nil];
     [_table2 addStaticCell:80 CellBlock:^(id cell) {

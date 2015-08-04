@@ -11,6 +11,7 @@
 #import "JSONModel.h"
 #import "LazyTableHelp.h"
 #import "MJRefresh.h"
+#import <objc/runtime.h>
 @interface LazyTableView()<UITableViewDataSource,UITableViewDelegate>
 {
     __weak id<LazyTableViewDelegate> customDelegate;
@@ -502,13 +503,30 @@
     [self removeFooter];
     if(tableType==LazyTableTypeManualStatic)
     {
-        for(LazyTableBaseSection *sec in customDataSource.arrData)
+        for(int i=0;i< customDataSource.arrData.count;i++)
         {
-            for(id item in sec.arrItem)
+            LazyTableBaseSection *sec=customDataSource.arrData[i];
+            for(int j=0;j<sec.arrItem.count;j++)
             {
+                id item=sec.arrItem[j];
+                NSString *cellId,*itemId;
+                if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewSwitchCell:Request:Section:Row:)])
+                {
+                    cellId=[customDelegate LazyTableViewSwitchCell:self Request:[self getObjectData:item] Section:i Row:j];
+                }
+                if(cellId!=nil)
+                {
+                    itemId=customDataSource.dicCellItem[cellId];
+                }
+                else
+                {
+                    itemId=[[customDataSource.dicCellItem allValues] lastObject];
+                    cellId=[[customDataSource.dicCellItem allKeys] lastObject];
+                }
                 [item performSelector:@selector(setViewControllerDelegate:) withObject:  customDelegate];
                 [item performSelector:@selector(setTableViewDelegate:) withObject:self];
                 [item performSelector:@selector(setSectionDelegate:) withObject:sec];
+                [item performSelector:@selector(setCellClassName:) withObject:cellId];
             }
         }
         [self reloadData];
@@ -616,7 +634,7 @@
         {
             [customDelegate LazyTableViewDidFinishLoadData:self Count:customDataSource.arrData.count First:YES];
         }
-
+        
     }
 }
 
@@ -678,10 +696,10 @@
         [customDataSource.arrData addObject:singleSection];
     }
     [((LazyTableBaseSection*)[customDataSource.arrData lastObject]).arrItem addObject:@{
-                                          @"height":@(height),
-                                          @"cellblock":cellBlock,
-                                          @"clickblock":cellClick
-                                          }];
+                                                                                        @"height":@(height),
+                                                                                        @"cellblock":cellBlock,
+                                                                                        @"clickblock":cellClick
+                                                                                        }];
 }
 
 -(LazyTableType)getTableType
@@ -701,7 +719,62 @@
     [self reloadData];
 }
 
+- (NSDictionary*)getObjectData:(id)obj
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    unsigned int propsCount;
+    objc_property_t *props = class_copyPropertyList([obj class], &propsCount);
+    for(int i = 0;i < propsCount; i++)
+    {
+        objc_property_t prop = props[i];
+        
+        NSString *propName = [NSString stringWithUTF8String:property_getName(prop)];
+        id value = [obj valueForKey:propName];
+        if(value == nil)
+        {
+            value = [NSNull null];
+        }
+        else
+        {
+            value = [self getObjectInternal:value];
+        }
+        [dic setObject:value forKey:propName];
+    }
+    return dic;
+}
 
+- (id)getObjectInternal:(id)obj
+{
+    if([obj isKindOfClass:[NSString class]]
+       || [obj isKindOfClass:[NSNumber class]]
+       || [obj isKindOfClass:[NSNull class]])
+    {
+        return obj;
+    }
+    
+    if([obj isKindOfClass:[NSArray class]])
+    {
+        NSArray *objarr = obj;
+        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:objarr.count];
+        for(int i = 0;i < objarr.count; i++)
+        {
+            [arr setObject:[self getObjectInternal:[objarr objectAtIndex:i]] atIndexedSubscript:i];
+        }
+        return arr;
+    }
+    
+    if([obj isKindOfClass:[NSDictionary class]])
+    {
+        NSDictionary *objdic = obj;
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:[objdic count]];
+        for(NSString *key in objdic.allKeys)
+        {
+            [dic setObject:[self getObjectInternal:[objdic objectForKey:key]] forKey:key];
+        }
+        return dic;
+    }
+    return [self getObjectData:obj];
+}
 @end
 
 
