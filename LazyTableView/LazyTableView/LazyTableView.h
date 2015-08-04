@@ -183,6 +183,22 @@ typedef enum
  *  当tableview数据为空的时候显示的文字描述
  */
 @property (strong,nonatomic) NSString* dataEmptyDes;
+/**
+ *  当网络发生错误的时候显示的文字描述
+ */
+@property (strong,nonatomic) NSString* dataErrorDes;
+/**
+ *  当tableview数据为空的时候显示的图片
+ */
+@property (strong,nonatomic) NSString* dataEmptyImg;
+/**
+ *  当网络发生错误的时候显示的图片
+ */
+@property (strong,nonatomic) NSString* dataErrorImg;
+/**
+ *  设置自定义hud图片数组
+ */
+@property (strong,nonatomic) NSArray* arrImgHud;
 @end
 
 

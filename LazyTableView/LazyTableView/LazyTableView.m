@@ -55,7 +55,14 @@
     imgLoading.userInteractionEnabled=YES;
     imgLoading.backgroundColor=[UIColor whiteColor];
     imgLoading.layer.zPosition=MAXFLOAT;
-    imgLoading.animationImages=@[[UIImage imageNamed:@"HUDLoading1.png"],[UIImage imageNamed:@"HUDLoading2.png"],[UIImage imageNamed:@"HUDLoading3.png"],[UIImage imageNamed:@"HUDLoading4.png"],[UIImage imageNamed:@"HUDLoading5.png"],[UIImage imageNamed:@"HUDLoading6.png"],[UIImage imageNamed:@"HUDLoading7.png"]];
+    if(_arrImgHud!=nil)
+    {
+        imgLoading.animationImages=_arrImgHud;
+    }
+    else
+    {
+        imgLoading.animationImages=@[[UIImage imageNamed:@"HUDLoading1.png"],[UIImage imageNamed:@"HUDLoading2.png"],[UIImage imageNamed:@"HUDLoading3.png"],[UIImage imageNamed:@"HUDLoading4.png"],[UIImage imageNamed:@"HUDLoading5.png"],[UIImage imageNamed:@"HUDLoading6.png"],[UIImage imageNamed:@"HUDLoading7.png"]];
+    }
     imgLoading.animationDuration=1.0;
     imgLoading.animationRepeatCount=-1;
     [viewHud addSubview:imgLoading];
@@ -248,8 +255,22 @@
          imgLoading.hidden=YES;
          imgStatus.hidden=NO;
          viewHud.hidden=NO;
-         imgStatus.image=[UIImage imageNamed:@"DataError.png"];
-         lbStatus.text=@"亲，网络貌似傲娇了噢！";
+         if(_dataErrorImg!=nil)
+         {
+             imgStatus.image=[UIImage imageNamed:_dataErrorImg];
+         }
+         else
+         {
+             imgStatus.image=[UIImage imageNamed:@"DataError.png"];
+         }
+         if(_dataErrorDes!=nil)
+         {
+             lbStatus.text=_dataErrorDes;
+         }
+         else
+         {
+             lbStatus.text=@"亲，网络貌似傲娇了噢！";
+         }
          [self setRefreshShow:YES Footer:NO];
          if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewLoadError:Error:)])
          {
@@ -448,7 +469,14 @@
             imgLoading.hidden=YES;
             imgStatus.hidden=NO;
             viewHud.hidden=NO;
-            imgStatus.image=[UIImage imageNamed:@"DataEmpty.png"];
+            if(_dataEmptyImg!=nil)
+            {
+                imgStatus.image=[UIImage imageNamed:_dataEmptyImg];
+            }
+            else
+            {
+                imgStatus.image=[UIImage imageNamed:@"DataEmpty.png"];
+            }
             if(_dataEmptyDes!=nil)
             {
                 lbStatus.text=_dataEmptyDes;
