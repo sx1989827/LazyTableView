@@ -32,6 +32,8 @@
     UILabel *lbStatus;
     BOOL bFirstHud;
     UIView *viewParallax;
+    NSInteger loadCount;
+    NSInteger finishCount;
 }
 @end
 @interface LazyTableBaseSection (WriteItem)
@@ -44,6 +46,8 @@
     customDataSource=[[LazyTableHelp alloc] init];
     customDataSource.delegate=self;
     bDisablePage=NO;
+    loadCount=0;
+    finishCount=0;
     viewHud=[[UIView alloc] initWithFrame:self.bounds];
     viewHud.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     viewHud.layer.zPosition=MAXFLOAT;
@@ -217,12 +221,13 @@
 
 -(void)reload:(NSString*)url Param:(NSDictionary*)dic
 {
+    loadCount++;
     customDataSource.removeCount=0;
     if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewWillStartRequest:First:)])
     {
         [customDelegate LazyTableViewWillStartRequest:self First:!bMore];
     }
-    if(!bMore && bFirstHud)
+    if(!bMore && bFirstHud && !imgLoading.isAnimating)
     {
         viewHud.hidden=NO;
         imgLoading.hidden=NO;
@@ -235,6 +240,11 @@
     manage.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manage GET:url parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
+         finishCount++;
+         if(finishCount!=loadCount)
+         {
+             return;
+         }
          NSString *requestTmp = [NSString stringWithString:operation.responseString];
          NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
          NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableContainers error:nil];
@@ -243,6 +253,11 @@
      }
         failure:^(AFHTTPRequestOperation *operation, NSError *error)
      {
+         finishCount++;
+         if(finishCount!=loadCount)
+         {
+             return;
+         }
          if(self.isHeaderRefreshing)
          {
              [self headerEndRefreshing];
@@ -701,7 +716,7 @@
     bDisablePage=YES;
 }
 
--(NSArray*)getDataSource
+-(NSMutableArray*)getDataSource
 {
     return customDataSource.arrData;
 }

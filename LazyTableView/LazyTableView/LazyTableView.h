@@ -148,7 +148,7 @@ typedef enum
  *
  *  @return 当前的DataSource
  */
--(NSArray*)getDataSource;
+-(NSMutableArray*)getDataSource;
 /**
  *  获取当前远程抓取的url的参数
  *

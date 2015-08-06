@@ -1,6 +1,6 @@
 //
-//  CustomTableDelegate.m
-//  CustomTable
+//  LazyTableDelegate.m
+//  LazyTable
 //
 //  Created by 孙昕 on 15/2/2.
 //  Copyright (c) 2015年 孙昕. All rights reserved.
@@ -191,7 +191,16 @@ typedef void (^clickBlock)(id cell);
         {
             [cell performSelector:@selector(LazyTableCellDel:Path:) withObject:sec.arrItem[indexPath.row] withObject:indexPath];
             [sec.arrItem removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]  withRowAnimation:UITableViewRowAnimationFade];
+            if(sec.arrItem.count==0)
+            {
+                [_arrData removeObject:sec];
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            else
+            {
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]  withRowAnimation:UITableViewRowAnimationFade];
+            }
+            
         }
         _removeCount++;
     }
