@@ -250,10 +250,131 @@ typedef void (^clickBlock)(id cell);
     return @"删除";
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"scrollViewDidScroll" object:nil];
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidScroll:)])
+    {
+        [delegate scrollViewDidScroll:scrollView];
+    }
 }
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidZoom:)])
+    {
+        [delegate scrollViewDidZoom:scrollView];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewWillBeginDragging:)])
+    {
+        [delegate scrollViewWillBeginDragging:scrollView];
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:)])
+    {
+        [delegate scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)])
+    {
+        [delegate scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewWillBeginDecelerating:)])
+    {
+        [delegate scrollViewWillBeginDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidEndDecelerating:)])
+    {
+        [delegate scrollViewDidEndDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidEndScrollingAnimation:)])
+    {
+        [delegate scrollViewDidEndScrollingAnimation:scrollView];
+    }
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(viewForZoomingInScrollView:)])
+    {
+        return [delegate viewForZoomingInScrollView:scrollView];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewWillBeginZooming:withView:)])
+    {
+        [delegate scrollViewWillBeginZooming:scrollView withView:view];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidEndZooming:withView:atScale:)])
+    {
+        [delegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
+    }
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewShouldScrollToTop:)])
+    {
+        return [delegate scrollViewShouldScrollToTop:scrollView];
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
+    if(delegate && [delegate respondsToSelector:@selector(scrollViewDidScrollToTop:)])
+    {
+        [delegate scrollViewDidScrollToTop:scrollView];
+    }
+}
+
 @end
 
 
