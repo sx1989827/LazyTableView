@@ -542,6 +542,10 @@
 {
     [imgLoading stopAnimating];
     viewHud.hidden=YES;
+    if([(UIView*)self.subviews[1] isMemberOfClass:[UIView class]])
+    {
+        ((UIView*)self.subviews[1]).hidden=YES;
+    }
     [self removeHeader];
     [self removeFooter];
     if(tableType==LazyTableTypeManualStatic)
