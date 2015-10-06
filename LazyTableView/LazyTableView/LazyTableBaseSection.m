@@ -1,6 +1,6 @@
 //
-//  CustomTableBaseSection.m
-//  CustomTable
+//  LazyTableBaseSection.m
+//  LazyTable
 //
 //  Created by 孙昕 on 15/2/5.
 //  Copyright (c) 2015年 孙昕. All rights reserved.

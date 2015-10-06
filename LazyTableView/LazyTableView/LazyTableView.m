@@ -48,6 +48,8 @@
     bDisablePage=NO;
     loadCount=0;
     finishCount=0;
+    _bStatusViewShow=YES;
+    _bImgHudShow=YES;
     viewHud=[[UIView alloc] initWithFrame:self.bounds];
     viewHud.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     viewHud.layer.zPosition=MAXFLOAT;
@@ -227,7 +229,7 @@
     {
         [customDelegate LazyTableViewWillStartRequest:self First:!bMore];
     }
-    if(!bMore && bFirstHud && !imgLoading.isAnimating)
+    if(!bMore && bFirstHud && !imgLoading.isAnimating && _bImgHudShow)
     {
         viewHud.hidden=NO;
         imgLoading.hidden=NO;
@@ -286,6 +288,14 @@
          {
              lbStatus.text=@"亲，网络貌似傲娇了噢！";
          }
+         if(!_bStatusViewShow)
+         {
+             viewHud.hidden=YES;
+         }
+         else
+         {
+             viewHud.hidden=NO;
+         }
          [self setRefreshShow:YES Footer:NO];
          if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewLoadError:Error:)])
          {
@@ -300,9 +310,9 @@
     if(bHeader)
     {
         [self addHeaderWithCallback:^{
-            bFirstHud=NO;
+            [weakSelf setValue:@NO forKey:@"bFirstHud"];
             [weakSelf reloadRequest:[weakSelf valueForKey:@"requestUrl"] Param:[weakSelf valueForKey:@"dicParam"]];
-            bFirstHud=YES;
+            [weakSelf setValue:@YES forKey:@"bFirstHud"];
         }];
     }
     else
@@ -408,7 +418,7 @@
             [obj performSelector:@selector(setTableViewDelegate:) withObject:self];
             [obj performSelector:@selector(setSectionDelegate:) withObject:section];
             [obj performSelector:@selector(setCellClassName:) withObject:cellId];
-            [ singleSection.arrItem addObject:obj];
+            [singleSection.arrItem addObject:obj];
             if(bMore)
             {
                 NSIndexPath    *newPath =  [NSIndexPath indexPathForRow:singleSection.arrItem.count-1 inSection:0];
@@ -500,7 +510,14 @@
             {
                 lbStatus.text=@"对不起，让您失望了!";
             }
-            
+            if(!_bStatusViewShow)
+            {
+                viewHud.hidden=YES;
+            }
+            else
+            {
+                viewHud.hidden=NO;
+            }
         }
         else
         {
@@ -821,6 +838,17 @@
         return dic;
     }
     return [self getObjectData:obj];
+}
+
+-(void)dealloc
+{
+    if(customDataSource)
+    {
+        [customDataSource.arrData removeAllObjects];
+        [customDataSource.dicCellItem removeAllObjects];
+        [customDataSource.dicCacheCell removeAllObjects];
+        [customDataSource.dicCellXibExist removeAllObjects];
+    }
 }
 @end
 

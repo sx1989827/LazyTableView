@@ -144,6 +144,7 @@ typedef void (^clickBlock)(id cell);
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     LazyTableBaseSection *sec=_arrData[indexPath.section];
     if([_delegate getTableType]==LazyTableTypeBlockStatic)
@@ -238,7 +239,9 @@ typedef void (^clickBlock)(id cell);
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     LazyTableBaseSection *sec=_arrData[indexPath.section];
     if([cell respondsToSelector:@selector(LazyTableCellDidDeselect:Path:)])
     {
@@ -340,7 +343,7 @@ typedef void (^clickBlock)(id cell);
     id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
     if(delegate && [delegate respondsToSelector:@selector(scrollViewWillBeginZooming:withView:)])
     {
-        [delegate scrollViewWillBeginZooming:scrollView withView:view];
+         [delegate scrollViewWillBeginZooming:scrollView withView:view];
     }
 }
 
@@ -349,7 +352,7 @@ typedef void (^clickBlock)(id cell);
     id<LazyTableViewDelegate> delegate=[_delegate valueForKey:@"customDelegate"];
     if(delegate && [delegate respondsToSelector:@selector(scrollViewDidEndZooming:withView:atScale:)])
     {
-        [delegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
+         [delegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
     }
 }
 
@@ -374,7 +377,6 @@ typedef void (^clickBlock)(id cell);
         [delegate scrollViewDidScrollToTop:scrollView];
     }
 }
-
 @end
 
 

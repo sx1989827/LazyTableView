@@ -180,6 +180,14 @@ typedef enum
  */
 -(void)empty;
 /**
+ *  加载完成或者错误时提示的view是否显示
+ */
+@property (assign,nonatomic) BOOL bStatusViewShow;
+/**
+ *  加载动画是否显示
+ */
+@property (assign,nonatomic) BOOL bImgHudShow;
+/**
  *  当tableview数据为空的时候显示的文字描述
  */
 @property (strong,nonatomic) NSString* dataEmptyDes;
