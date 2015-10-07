@@ -22,9 +22,9 @@ UITableView可谓是ios开发里的重中之重了，熟练掌握tableview的程
 5.支持xib和纯代码两种cell创建方式，框架自动识别创建。
 
 # 耦合性
-我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可，如果用户使用了cocoapods，则在podfile里加入以下代码：
+1.我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可。
 
-pod "LazyTableView"
+2.如果用户使用了cocoapods，则在podfile里加入以下代码：pod "LazyTableView"即可。
 
 
 
