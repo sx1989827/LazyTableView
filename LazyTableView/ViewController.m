@@ -18,17 +18,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets=NO;
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
+    view.backgroundColor=[UIColor redColor];
+    _table1.tableHeaderView=view;
     [_table1 registarCell:@"InfoCell" StrItem:@"InfoItem"];
     [_table1 registarCell:@"InfoCell1" StrItem:@"InfoItem"];
     [_table1 setDelegateAndDataSource:self];
     [_table1 setPageParam:@"pi" Page:2];
-    
+    //[_table1 setMaxCount:6];
     //[_table1 disablePage];
     [_table1 reloadRequest:@"http://v5.pc.duomi.com/search-ajaxsearch-searchall" Param:@{
                                      @"kw":@"爱情",
                                      @"pz":@10
                                         }];
-
     [_table2 setDelegateAndDataSource:self];
     [_table2 registarCell:@"InfoCell" StrItem:nil];
     [_table2 addStaticCell:80 CellBlock:^(id cell) {
@@ -107,7 +109,6 @@
     [_table3 addDataSource:arr];
     [_table3 setSectionIndexTitles:arr1];
     [_table3 reloadStatic];
-    
     
 }
 

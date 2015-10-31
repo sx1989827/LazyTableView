@@ -34,6 +34,7 @@
     UIView *viewParallax;
     NSInteger loadCount;
     NSInteger finishCount;
+    NSInteger maxCount;
 }
 @end
 @interface LazyTableBaseSection (WriteItem)
@@ -50,7 +51,10 @@
     finishCount=0;
     _bStatusViewShow=YES;
     _bImgHudShow=YES;
+    maxCount=-1;
     viewHud=[[UIView alloc] initWithFrame:self.bounds];
+    viewHud.tag=1;
+    _viewHud=viewHud;
     viewHud.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     viewHud.layer.zPosition=MAXFLOAT;
     viewHud.backgroundColor=[UIColor whiteColor];
@@ -61,6 +65,7 @@
     imgLoading.userInteractionEnabled=YES;
     imgLoading.backgroundColor=[UIColor whiteColor];
     imgLoading.layer.zPosition=MAXFLOAT;
+    imgLoading.backgroundColor=[UIColor clearColor];
     if(_arrImgHud!=nil)
     {
         imgLoading.animationImages=_arrImgHud;
@@ -81,7 +86,7 @@
     imgStatus.center=viewHud.center;
     imgStatus.translatesAutoresizingMaskIntoConstraints=NO;
     imgStatus.userInteractionEnabled=YES;
-    imgStatus.backgroundColor=[UIColor whiteColor];
+    imgStatus.backgroundColor=[UIColor clearColor];
     [viewHud addSubview:imgStatus];
     [imgStatus addConstraint:[NSLayoutConstraint constraintWithItem:imgStatus attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:80]];
     [imgStatus addConstraint:[NSLayoutConstraint constraintWithItem:imgStatus attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:110]];
@@ -93,6 +98,7 @@
     lbStatus.translatesAutoresizingMaskIntoConstraints=NO;
     lbStatus.numberOfLines=2;
     lbStatus.textAlignment=NSTextAlignmentCenter;
+    lbStatus.backgroundColor=[UIColor clearColor];
     [viewHud addSubview:lbStatus];
     [lbStatus addConstraint:[NSLayoutConstraint constraintWithItem:lbStatus attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:200]];
     [viewHud addConstraint:[NSLayoutConstraint constraintWithItem:lbStatus attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:viewHud attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
@@ -350,11 +356,23 @@
     LazyTableBaseSection *singleSection=[[LazyTableBaseSection alloc] init];
     LazyTableBaseSection *section=nil;
     int iSectionMoreCount=0;
+    BOOL bMax=NO;
     for(int i=0;i<arr.count;i++)
     {
         if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewInfoForSection:Request:)])
         {
             section=[customDelegate LazyTableViewInfoForSection:self Request:arr[i]];
+        }
+        if(maxCount!=-1)
+        {
+            if([self getRowCount]+1==maxCount)
+            {
+                bMax=YES;
+            }
+            else if([self getRowCount]==maxCount)
+            {
+                break;
+            }
         }
         if(section!=nil)
         {
@@ -531,12 +549,19 @@
             }
             [imgLoading stopAnimating];
             viewHud.hidden=YES;
-            if([(UIView*)self.subviews[1] isMemberOfClass:[UIView class]])
+            for(UIView *v in self.subviews)
             {
-                ((UIView*)self.subviews[1]).hidden=YES;
+                if(v.tag==1)
+                {
+                    v.hidden=YES;
+                    break;
+                }
             }
-            
         }
+    }
+    if(bMax)
+    {
+        [self removeFooter];
     }
     if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewDidFinishLoadData:Count:First:)])
     {
@@ -559,9 +584,13 @@
 {
     [imgLoading stopAnimating];
     viewHud.hidden=YES;
-    if([(UIView*)self.subviews[1] isMemberOfClass:[UIView class]])
+    for(UIView *v in self.subviews)
     {
-        ((UIView*)self.subviews[1]).hidden=YES;
+        if(v.tag==1)
+        {
+            v.hidden=YES;
+            break;
+        }
     }
     [self removeHeader];
     [self removeFooter];
@@ -611,6 +640,13 @@
             if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewInfoForSection:Request:)])
             {
                 section=[customDelegate LazyTableViewInfoForSection:self Request:arrTemp[i]];
+            }
+            if(maxCount!=-1)
+            {
+                if([self getRowCount]==maxCount)
+                {
+                    break;
+                }
             }
             if(section!=nil)
             {
@@ -850,6 +886,26 @@
         [customDataSource.dicCellXibExist removeAllObjects];
     }
 }
+
+-(void)setMaxCount:(NSInteger)count
+{
+    maxCount=count;
+}
+
+-(void)reload
+{
+    if(tableType==LazyTableTypeRequest)
+    {
+        [self setValue:@NO forKey:@"bFirstHud"];
+        [self reloadRequest:[self valueForKey:@"requestUrl"] Param:[self valueForKey:@"dicParam"]];
+        [self setValue:@YES forKey:@"bFirstHud"];
+    }
+    else
+    {
+        [self reloadStatic];
+    }
+}
+
 @end
 
 

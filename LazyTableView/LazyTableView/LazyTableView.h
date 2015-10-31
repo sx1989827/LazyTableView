@@ -180,6 +180,16 @@ typedef enum
  */
 -(void)empty;
 /**
+ *  设置最多显示的cell数
+ *
+ *  @param count 最多显示的cell数
+ */
+-(void)setMaxCount:(NSInteger)count;
+/**
+ *  按照初始化的数据重新加载
+ */
+-(void)reload;
+/**
  *  加载完成或者错误时提示的view是否显示
  */
 @property (assign,nonatomic) BOOL bStatusViewShow;
@@ -207,6 +217,10 @@ typedef enum
  *  设置自定义hud图片数组
  */
 @property (strong,nonatomic) NSArray* arrImgHud;
+/**
+ *  hud View
+ */
+@property (strong,nonatomic) UIView* viewHud;
 @end
 
 
