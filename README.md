@@ -22,15 +22,10 @@ UITableView可谓是ios开发里的重中之重了，熟练掌握tableview的程
 5.支持xib和纯代码两种cell创建方式，框架自动识别创建。
 
 # 耦合性
-我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可，如果用户使用了cocoapods，则在podfile里加入以下代码：
+1.我使用了AFNetwoking，MJRefresh，JsonModal三个框架来简化代码的编写，如果用户没有使用cocoapods，无需做任何改动，将LazyTableView文件夹拖入项目即可。
 
-pod "AFNetworking"
+2.如果用户使用了cocoapods，则在podfile里加入以下代码：pod "LazyTableView"即可。
 
-pod "JSONModel"
-
-pod "MJRefresh",'0.0.1'
-
-并且删除LazyTableView里的lib文件夹。
 
 
 # 如何使用
@@ -243,6 +238,8 @@ pod "MJRefresh",'0.0.1'
 大致的用法就如上面所述，大家可以下载demo测试下，代码里都有详细的注释,这个框架我会不断完善，自己的app也在使用，希望大家有什么意见和想法可以与我多多交流。
 
 ## 联系方式
-QQ群：460483960  这是我们的ios项目的开发者qq群，这是一个纯粹的ios开发者社区，里面汇聚了众多有经验的ios开发者，没有hr和打扰和广告的骚扰，为您创造一个纯净的技术交流环境，如果您对我的项目以及对ios开发有任何疑问，都可以加群交流，欢迎您的加入~
+QQ群：1群：460483960（目前已满） 2群：239309957 这是我们的ios项目的开发者qq群，这是一个纯粹的ios开发者社区，里面汇聚了众多有经验的ios开发者，没有hr和打扰和广告的骚扰，为您创造一个纯净的技术交流环境，如果您对我的项目以及对ios开发有任何疑问，都可以加群交流，欢迎您的加入~
+
+微信公众号：fuckingxcode 欢迎大家关注，我们群的活动投票和文章等都会在公众号里，群期刊目前也移到公众号里。
 
 
