@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LazyTableView"
-  s.version      = "1.1"
+  s.version      = "1.2"
   s.summary      = "LazyTableView can be the greatest degree of simplification of the operation of UITableView, support for remote JSON loading."
 
   s.description  = <<-DESC
@@ -24,6 +24,6 @@ Pod::Spec.new do |s|
   s.resources    = "LazyTableView/LazyTableView/img/*.png"
   s.requires_arc = true
   s.dependency 'MJRefresh','0.0.1'
-  s.dependency	        'AFNetworking'
+  s.dependency	        'AFNetworking',"2.6.3"
   s.dependency             'JSONModel'
 end
