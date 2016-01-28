@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LazyTableView"
-  s.version      = "1.2"
+  s.version      = "1.3"
   s.summary      = "LazyTableView can be the greatest degree of simplification of the operation of UITableView, support for remote JSON loading."
 
   s.description  = <<-DESC
