@@ -221,6 +221,40 @@ typedef enum
  *  hud View
  */
 @property (strong,nonatomic) UIView* viewHud;
+/**
+ *  设置下拉刷新普通状态的动画图片
+ */
+@property (strong,nonatomic) NSArray* arrImgRefreshIdle;
+/**
+ *  设置即将刷新状态的动画图片
+ */
+@property (strong,nonatomic) NSArray* arrImgRefreshPull;
+/**
+ *  设置正在刷新状态的动画图片
+ */
+@property (strong,nonatomic) NSArray* arrImgRefreshRefresh;
+/**
+ *  列表滚动到尾部是否自动加载更多
+ */
+@property (assign,nonatomic) BOOL bAutoRefreshMore;
+/**
+ *  设置全局即将刷新状态的动画图片
+ *
+ *  @param arr 图片数组
+ */
++(void)registerImgRefreshIdle:(NSArray*)arr;
+/**
+ *  设置全局即将刷新状态的动画图片
+ *
+ *  @param arr 图片数组
+ */
++(void)registerImgRefreshPull:(NSArray*)arr;
+/**
+ *  设置全局正在刷新状态的动画图片
+ *
+ *  @param arr 图片数组
+ */
++(void)registerImgRefreshRefresh:(NSArray*)arr;
 @end
 
 

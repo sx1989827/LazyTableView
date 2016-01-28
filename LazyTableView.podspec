@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.source_files = "LazyTableView/LazyTableView/*.{h,m}"
   s.resources    = "LazyTableView/LazyTableView/img/*.png"
   s.requires_arc = true
-  s.dependency 'MJRefresh','0.0.1'
+  s.dependency 'MJRefresh'
   s.dependency	        'AFNetworking',"2.6.3"
   s.dependency             'JSONModel'
 end

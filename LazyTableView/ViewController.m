@@ -17,6 +17,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [LazyTableView registerImgRefreshIdle:@[[UIImage imageNamed:@"DataEmpty.png"]]];
+    [LazyTableView registerImgRefreshPull:@[[UIImage imageNamed:@"DataError.png"]]];
+   [LazyTableView registerImgRefreshRefresh:@[[UIImage imageNamed:@"HUDLoading1"],[UIImage imageNamed:@"HUDLoading2"],[UIImage imageNamed:@"HUDLoading3"],[UIImage imageNamed:@"HUDLoading4"],[UIImage imageNamed:@"HUDLoading5"],[UIImage imageNamed:@"HUDLoading6"],[UIImage imageNamed:@"HUDLoading7"]]];
     self.automaticallyAdjustsScrollViewInsets=NO;
     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
     view.backgroundColor=[UIColor redColor];

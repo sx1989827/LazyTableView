@@ -12,6 +12,7 @@
 #import "LazyTableHelp.h"
 #import "MJRefresh.h"
 #import <objc/runtime.h>
+NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
 @interface LazyTableView()<UITableViewDataSource,UITableViewDelegate>
 {
     __weak id<LazyTableViewDelegate> customDelegate;
@@ -266,13 +267,13 @@
          {
              return;
          }
-         if(self.isHeaderRefreshing)
+         if(self.mj_header.isRefreshing)
          {
-             [self headerEndRefreshing];
+             [self.mj_header endRefreshing];
          }
-         if(self.isFooterRefreshing)
+         if(self.mj_footer.isRefreshing)
          {
-             [self footerEndRefreshing];
+             [self.mj_footer endRefreshing];
          }
          [imgLoading stopAnimating];
          imgLoading.hidden=YES;
@@ -315,25 +316,64 @@
     __weak typeof(self) weakSelf=self;
     if(bHeader)
     {
-        [self addHeaderWithCallback:^{
+        self.mj_header=[MJRefreshGifHeader headerWithRefreshingBlock:^{
             [weakSelf setValue:@NO forKey:@"bFirstHud"];
             [weakSelf reloadRequest:[weakSelf valueForKey:@"requestUrl"] Param:[weakSelf valueForKey:@"dicParam"]];
             [weakSelf setValue:@YES forKey:@"bFirstHud"];
         }];
+        if(_arrImgRefreshIdle!=nil || _arrImgRefreshPull!=nil || _arrImgRefreshRefresh!=nil || arrImgRefreshIdle!=nil || arrImgRefreshPull!=nil || arrImgRefreshRefresh!=nil)
+        {
+            MJRefreshGifHeader *header=(MJRefreshGifHeader*)self.mj_header;
+            header.lastUpdatedTimeLabel.hidden = YES;
+            header.stateLabel.hidden = YES;
+            if(_arrImgRefreshIdle!=nil)
+            {
+                [header setImages:_arrImgRefreshIdle forState:MJRefreshStateIdle];
+            }
+            else if(arrImgRefreshIdle!=nil)
+            {
+                [header setImages:arrImgRefreshIdle forState:MJRefreshStateIdle];
+            }
+            if(_arrImgRefreshPull!=nil)
+            {
+                [header setImages:_arrImgRefreshPull forState:MJRefreshStatePulling];
+            }
+            else if(arrImgRefreshPull!=nil)
+            {
+                [header setImages:arrImgRefreshPull forState:MJRefreshStatePulling];
+            }
+            if(_arrImgRefreshRefresh!=nil)
+            {
+                [header setImages:_arrImgRefreshRefresh forState:MJRefreshStateRefreshing];
+            }
+            else if(arrImgRefreshRefresh!=nil)
+            {
+                [header setImages:arrImgRefreshRefresh forState:MJRefreshStateRefreshing];
+            }
+        }
     }
     else
     {
-        [self removeHeader];
+        self.mj_header=nil;
     }
     if(bFooter)
     {
-        [self addFooterWithCallback:^{
-            [weakSelf reloadMore];
-        }];
+        if(_bAutoRefreshMore)
+        {
+            self.mj_footer=[MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+                [weakSelf reloadMore];
+            }];
+        }
+        else
+        {
+            self.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+                [weakSelf reloadMore];
+            }];
+        }
     }
     else
     {
-        [self removeFooter];
+        self.mj_footer=nil;
     }
 }
 
@@ -463,13 +503,28 @@
         }
     }
     self.tableFooterView=[[UIView alloc] init];
-    if(self.isHeaderRefreshing)
+    if(self.mj_header.isRefreshing)
     {
-        [self headerEndRefreshing];
+        [self.mj_header endRefreshing];
     }
-    if(self.isFooterRefreshing)
+    if(self.mj_footer.isRefreshing)
     {
-        [self footerEndRefreshing];
+        if(bMore)
+        {
+            if(arr.count==0)
+            {
+                [self.mj_footer endRefreshingWithNoMoreData];
+            }
+            else
+            {
+                [self.mj_footer endRefreshing];
+            }
+        }
+        else
+        {
+            [self.mj_footer endRefreshing];
+        }
+        
     }
     
     NSInteger count=0;
@@ -561,7 +616,7 @@
     }
     if(bMax)
     {
-        [self removeFooter];
+        self.mj_footer=nil;
     }
     if(customDelegate && [customDelegate respondsToSelector:@selector(LazyTableViewDidFinishLoadData:Count:First:)])
     {
@@ -592,8 +647,8 @@
             break;
         }
     }
-    [self removeHeader];
-    [self removeFooter];
+    self.mj_header=nil;
+    self.mj_footer=nil;
     if(tableType==LazyTableTypeManualStatic)
     {
         for(int i=0;i< customDataSource.arrData.count;i++)
@@ -906,6 +961,20 @@
     }
 }
 
++(void)registerImgRefreshIdle:(NSArray*)arr
+{
+    arrImgRefreshIdle=arr;
+}
+
++(void)registerImgRefreshPull:(NSArray*)arr
+{
+    arrImgRefreshPull=arr;
+}
+
++(void)registerImgRefreshRefresh:(NSArray*)arr
+{
+    arrImgRefreshRefresh=arr;
+}
 @end
 
 
