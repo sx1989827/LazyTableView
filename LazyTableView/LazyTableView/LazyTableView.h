@@ -218,6 +218,10 @@ typedef enum
  */
 @property (strong,nonatomic) NSArray* arrImgHud;
 /**
+ *  自定义hud图片动画间隔时间
+ */
+@property (assign,nonatomic) CGFloat imgHudDuration;
+/**
  *  hud View
  */
 @property (strong,nonatomic) UIView* viewHud;
@@ -255,6 +259,12 @@ typedef enum
  *  @param arr 图片数组
  */
 +(void)registerImgRefreshRefresh:(NSArray*)arr;
++(void)registerDataEmptyDes:(NSString*)str;
++(void)registerDataErrorDes:(NSString*)str;
++(void)registerDataEmptyImg:(NSString*)img;
++(void)registerDataErrorImg:(NSString*)img;
++(void)registerDataImgHud:(NSArray*)arrImg;
++(void)registerImgHudDuration:(CGFloat)duration;
 @end
 
 

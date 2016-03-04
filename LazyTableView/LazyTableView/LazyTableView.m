@@ -13,6 +13,9 @@
 #import "MJRefresh.h"
 #import <objc/runtime.h>
 NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
+NSString *g_EmptyDes,*g_ErrorDes,*g_EmptyImg,*g_ErrorImg;
+NSArray *g_arrHudImg;
+CGFloat g_ImgHudDuration;
 @interface LazyTableView()<UITableViewDataSource,UITableViewDelegate>
 {
     __weak id<LazyTableViewDelegate> customDelegate;
@@ -71,11 +74,26 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
     {
         imgLoading.animationImages=_arrImgHud;
     }
+    else if(g_arrHudImg!=nil)
+    {
+        imgLoading.animationImages=g_arrHudImg;
+    }
     else
     {
         imgLoading.animationImages=@[[UIImage imageNamed:@"HUDLoading1.png"],[UIImage imageNamed:@"HUDLoading2.png"],[UIImage imageNamed:@"HUDLoading3.png"],[UIImage imageNamed:@"HUDLoading4.png"],[UIImage imageNamed:@"HUDLoading5.png"],[UIImage imageNamed:@"HUDLoading6.png"],[UIImage imageNamed:@"HUDLoading7.png"]];
     }
-    imgLoading.animationDuration=1.0;
+    if(_imgHudDuration!=0)
+    {
+        imgLoading.animationDuration=_imgHudDuration;
+    }
+    else if(g_ImgHudDuration!=0)
+    {
+        imgLoading.animationDuration=g_ImgHudDuration;
+    }
+    else
+    {
+        imgLoading.animationDuration=1.0;
+    }
     imgLoading.animationRepeatCount=-1;
     [viewHud addSubview:imgLoading];
     [imgLoading addConstraint:[NSLayoutConstraint constraintWithItem:imgLoading attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:120]];
@@ -283,6 +301,10 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
          {
              imgStatus.image=[UIImage imageNamed:_dataErrorImg];
          }
+         else if(g_ErrorImg!=nil)
+         {
+             imgStatus.image=[UIImage imageNamed:g_ErrorImg];
+         }
          else
          {
              imgStatus.image=[UIImage imageNamed:@"DataError.png"];
@@ -290,6 +312,10 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
          if(_dataErrorDes!=nil)
          {
              lbStatus.text=_dataErrorDes;
+         }
+         else if(g_ErrorDes!=nil)
+         {
+             lbStatus.text=g_ErrorDes;
          }
          else
          {
@@ -571,6 +597,10 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
             {
                 imgStatus.image=[UIImage imageNamed:_dataEmptyImg];
             }
+            else if(g_EmptyImg!=nil)
+            {
+                imgStatus.image=[UIImage imageNamed:g_EmptyImg];
+            }
             else
             {
                 imgStatus.image=[UIImage imageNamed:@"DataEmpty.png"];
@@ -578,6 +608,10 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
             if(_dataEmptyDes!=nil)
             {
                 lbStatus.text=_dataEmptyDes;
+            }
+            else if(g_EmptyDes!=nil)
+            {
+                lbStatus.text=g_EmptyDes;
             }
             else
             {
@@ -974,6 +1008,36 @@ NSArray *arrImgRefreshIdle,*arrImgRefreshPull,*arrImgRefreshRefresh;
 +(void)registerImgRefreshRefresh:(NSArray*)arr
 {
     arrImgRefreshRefresh=arr;
+}
+
++(void)registerDataEmptyDes:(NSString*)str
+{
+    g_EmptyDes=str;
+}
+
++(void)registerDataErrorDes:(NSString*)str
+{
+    g_ErrorDes=str;
+}
+
++(void)registerDataEmptyImg:(NSString*)img
+{
+    g_EmptyImg=img;
+}
+
++(void)registerDataErrorImg:(NSString*)img
+{
+    g_ErrorImg=img;
+}
+
++(void)registerDataImgHud:(NSArray*)arrImg
+{
+    g_arrHudImg=arrImg;
+}
+
++(void)registerImgHudDuration:(CGFloat)duration
+{
+    g_ImgHudDuration=duration;
 }
 @end
 
