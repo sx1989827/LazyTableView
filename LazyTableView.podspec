@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LazyTableView"
-  s.version      = "1.4.1"
+  s.version      = "1.4.2"
   s.summary      = "LazyTableView can be the greatest degree of simplification of the operation of UITableView, support for remote JSON loading."
 
   s.description  = <<-DESC
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "sx1989827" => "" }
   s.ios.deployment_target = '7.0'
-  s.source       = { :git => "https://github.com/sx1989827/LazyTableView.git", :tag => '1.4.1'}
+  s.source       = { :git => "https://github.com/sx1989827/LazyTableView.git", :tag => '1.4.2'}
   s.source_files = "LazyTableView/LazyTableView/*.{h,m}"
   s.resources    = "LazyTableView/LazyTableView/img/*.png"
   s.requires_arc = true
