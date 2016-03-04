@@ -30,7 +30,7 @@
     [_table1 setPageParam:@"pi" Page:2];
     //[_table1 setMaxCount:6];
     //[_table1 disablePage];
-    [_table1 reloadRequest:@"http://v5.pc1.duomi.com/search-ajaxsearch-searchall" Param:@{
+    [_table1 reloadRequest:@"http://v5.pc.duomi.com/search-ajaxsearch-searchall" Param:@{
                                      @"kw":@"爱情",
                                      @"pz":@10
                                         }];

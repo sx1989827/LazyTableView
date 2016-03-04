@@ -471,7 +471,7 @@ CGFloat g_ImgHudDuration;
             [customDataSource.arrData addObject:section];
             if(bMore)
             {
-                iSectionMoreCount++;
+                iSectionMoreCount+=section.arrItem.count;
                 [self insertSections:[NSIndexSet indexSetWithIndex:customDataSource.arrData.count-1] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
         }
@@ -581,7 +581,10 @@ CGFloat g_ImgHudDuration;
         }
         else
         {
-            count=customDataSource.arrData.count;
+            for(LazyTableBaseSection *sec in customDataSource.arrData)
+            {
+                count+=sec.arrItem.count;
+            }
         }
     }
     if(!bMore)

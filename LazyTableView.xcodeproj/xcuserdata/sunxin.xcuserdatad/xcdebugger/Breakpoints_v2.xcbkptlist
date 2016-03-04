@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LazyTableView/ViewController.m"
-            timestampString = "478772372.303037"
+            timestampString = "478773568.751967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-LazyTableViewDidFinishRequest:Request:"
             landmarkType = "5">
          </BreakpointContent>
@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LazyTableView/ViewController.m"
-            timestampString = "478772372.303037"
+            timestampString = "478773568.751967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-LazyTableViewSwitchCell:Request:Section:Row:"
             landmarkType = "5">
          </BreakpointContent>
@@ -266,6 +266,22 @@
             startingLineNumber = "350"
             endingLineNumber = "350"
             landmarkName = "-setRefreshShow:Footer:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LazyTableView/LazyTableView/LazyTableView.m"
+            timestampString = "478773922.04341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
+            landmarkName = "-initData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
